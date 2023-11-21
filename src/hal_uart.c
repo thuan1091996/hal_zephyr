@@ -38,10 +38,24 @@ LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 #define UART_MAX_INSTANCE   ARRAY_SIZE(uart_device)
 #define UART0_NODE          DT_NODELABEL(uart0)
 #define UART1_NODE          DT_NODELABEL(uart1)
+#define USB_CDC_NODE        DT_NODELABEL(usbd_cdc_acm)
+
+// UART param define
 #define UART0_BAUDRATE      DT_PROP(UART0_NODE, current_speed)
 #if DT_NODE_HAS_STATUS(UART1_NODE, okay)
 #define UART1_BAUDRATE      DT_PROP(UART1_NODE, current_speed)
 #endif
+
+// USB CDC param define
+#if DT_NODE_HAS_STATUS(USB_CDC_NODE, okay)
+    #define USB_CDC_UART_ENABLE  (1)
+#endif
+
+#if (USB_CDC_UART_ENABLE == 1)
+#include <zephyr/drivers/usb/udc.h>
+#include <zephyr/usb/usbd.h>
+#include <zephyr/usb/usb_device.h>
+#endif /* End of (USB_CDC_UART_ENABLE == 1) */
 /******************************************************************************
 * Module Preprocessor Constants
 *******************************************************************************/
@@ -79,6 +93,11 @@ static const struct device *uart_device[] = {
 #if DT_NODE_HAS_STATUS(UART1_NODE, okay)
     DEVICE_DT_GET(UART1_NODE),
 #endif
+
+#if (USB_CDC_UART_ENABLE == 1)
+    DEVICE_DT_GET(USB_CDC_NODE),
+#endif /* (USB_CDC_UART_ENABLE == 1) */
+
 };
 
 uart_ringbuffer_t uart_ringbuffer[UART_MAX_INSTANCE];
@@ -159,6 +178,23 @@ void uart_irq_callback(const struct device *dev, void *user_data)
     ring_buf_put_finish(&p_uart_ringbuffer->ringbuf, total_size);
 }
 
+int usb_init(const struct device *usb_dev)
+{
+	int ret;
+
+	if (!device_is_ready(usb_dev)) {
+		LOG_ERR("USB CDC ACM device not ready");
+		return FAILURE;
+	}
+	
+	ret = usb_enable(NULL);
+	if (ret != 0) {
+		LOG_ERR("Failed to enable USB CDC ACM");
+		return FAILURE;
+	}
+	return SUCCESS;
+}
+
 int hal__UARTInit(uint8_t uartNum)
 {
     param_check((uartNum >= 0) && (uartNum < UART_MAX_INSTANCE));
@@ -167,20 +203,34 @@ int hal__UARTInit(uint8_t uartNum)
         LOG_ERR("UART %d device is not ready!", uartNum);
         return FAILURE;
     }
-    const struct uart_config uart_cfg = {
-		.baudrate = UART_DEFAULT_CONF_BAUDRATE,
-		.parity = UART_DEFAULT_CONF_PARITY,
-		.stop_bits = UART_DEAFULT_CONF_STOP_BITS,
-		.data_bits = UART_DEAFULT_CONF_DATA_BITS,
-		.flow_ctrl = UART_DEAFULT_CONF_FLOW_CTRL
-	};
-    int status = uart_configure(uart_device[uartNum], &uart_cfg);
-    if(status != 0)
+#if (USB_CDC_UART_ENABLE == 1)
+    if (uartNum == (UART_MAX_INSTANCE -1)) // USB device
     {
-        LOG_ERR("Failed to configure UART %d with error code %d", uartNum, status);
-        return status;
+        if (usb_init(uart_device[uartNum]) != 0)
+        {
+            LOG_ERR("USB CDC init failed");
+            return FAILURE;
+        }
+        LOG_INF("Init USB CDC success");
     }
-    LOG_INF("Init UART %d success", uartNum);
+    else 
+#endif /* End of (USB_CDC_UART_ENABLE == 1) */
+    {
+        const struct uart_config uart_cfg = {
+            .baudrate = UART_DEFAULT_CONF_BAUDRATE,
+            .parity = UART_DEFAULT_CONF_PARITY,
+            .stop_bits = UART_DEAFULT_CONF_STOP_BITS,
+            .data_bits = UART_DEAFULT_CONF_DATA_BITS,
+            .flow_ctrl = UART_DEAFULT_CONF_FLOW_CTRL
+        };
+        int status = uart_configure(uart_device[uartNum], &uart_cfg);
+        if(status != 0)
+        {
+            LOG_ERR("Failed to configure UART %d with error code %d", uartNum, status);
+            return status;
+        }
+        LOG_INF("Init UART %d success", uartNum);
+    }
     // UART interrupt config
     ring_buf_init(&uart_ringbuffer[uartNum].ringbuf, UART_DEFAULT_RINGBUFFER_SIZE, uart_ringbuffer[uartNum].buffer);
     uart_irq_callback_user_data_set(uart_device[uartNum], &uart_irq_callback, &uart_ringbuffer[uartNum]);

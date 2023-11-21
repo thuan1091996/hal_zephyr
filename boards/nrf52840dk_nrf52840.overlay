@@ -1,0 +1,6 @@
+&zephyr_udc0 {
+	usbd_cdc_acm: cdc_acm_uart0 {
+		compatible = "zephyr,cdc-acm-uart";
+		status = "okay";
+	};
+};
