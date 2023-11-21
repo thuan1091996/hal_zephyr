@@ -7,4 +7,8 @@ project(hal_nrf52)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-target_sources(app PRIVATE src/main.c)
+target_sources(app PRIVATE 
+            src/main.c
+            src/hal.c
+            src/hal_uart.c
+            )
