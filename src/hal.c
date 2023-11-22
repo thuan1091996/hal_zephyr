@@ -164,12 +164,12 @@ int hal__init(void)
         return FAILURE;
     }
 
-    // // Init I2C
-    // if (__InitI2C() != SUCCESS)
-    // {
-    //     LOG_ERR("I2C init failed");
-    //     return FAILURE;
-    // }
+    // Init I2C
+    if (__InitI2C() != SUCCESS)
+    {
+        LOG_ERR("I2C init failed");
+        return FAILURE;
+    }
 
     return SUCCESS;
 

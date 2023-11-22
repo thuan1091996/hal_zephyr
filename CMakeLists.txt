@@ -11,4 +11,5 @@ target_sources(app PRIVATE
             src/main.c
             src/hal.c
             src/hal_uart.c
+            src/hal_i2c.c
             )
