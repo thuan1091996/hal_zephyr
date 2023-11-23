@@ -1,3 +1,48 @@
+// ------------------ Remove DK board default overlay ------------------ // 
+/delete-node/ &led0;
+/delete-node/ &led1;
+/delete-node/ &led2;
+/delete-node/ &led3;
+/delete-node/ &button0;
+/delete-node/ &button1;
+/delete-node/ &button2;
+/delete-node/ &button3;
+/delete-node/ &pwm_led0;
+
+
+/delete-node/ &sw_pwm;
+
+&spi1 {
+	status = "disabled";
+};
+
+&spi3 {
+	status = "disabled";
+};
+
+&qspi {
+	status = "disabled";
+};
+
+/ {
+	aliases {
+		/delete-property/ sw0;
+		/delete-property/ sw1;
+		/delete-property/ sw2;
+		/delete-property/ sw3;
+		/delete-property/ led0;
+		/delete-property/ led1;
+		/delete-property/ led2;
+		/delete-property/ led3;
+		/delete-property/ pwm-led0;
+		/delete-property/ bootloader-led0;
+		/delete-property/ mcuboot-led0;
+		/delete-property/ mcuboot-button0;
+	};
+};
+
+// ------------------ Application  ------------------ // 
+
 &zephyr_udc0 {
 	usbd_cdc_acm: cdc_acm_uart0 {
 		compatible = "zephyr,cdc-acm-uart";
