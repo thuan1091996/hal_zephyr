@@ -143,12 +143,12 @@ int hal__init(void)
     //     }      
     // }
 
-    // // Init PWM
-    // if (__InitPWM() != SUCCESS)
-    // {
-    //     LOG_ERR("PWM init failed");
-    //     return FAILURE;
-    // }
+    // Init PWM
+    if (__InitPWM() != SUCCESS)
+    {
+        LOG_ERR("PWM init failed");
+        return FAILURE;
+    }
 
     // // Init ADC
     // if (__InitADC() != SUCCESS)

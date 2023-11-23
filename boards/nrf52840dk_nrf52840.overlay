@@ -50,6 +50,10 @@
 	};
 };
 
+&uart1 {
+	status = "disabled";
+};
+
 &pwm1 {
 	status = "okay";
 	pinctrl-0 = <&pwm1_default>;
@@ -87,17 +91,17 @@
 			};
 
 			pwm2_pins: pwm2_pins {
-				pwms =	<&pwm2 0 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
-						<&pwm2 1 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
-						<&pwm2 2 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
-						<&pwm2 3 PWM_KHZ(2000) PWM_POLARITY_NORMAL>;
+				pwms =	<&pwm2 0 PWM_KHZ(2) PWM_POLARITY_NORMAL>,
+						<&pwm2 1 PWM_KHZ(2) PWM_POLARITY_NORMAL>,
+						<&pwm2 2 PWM_KHZ(2) PWM_POLARITY_NORMAL>,
+						<&pwm2 3 PWM_KHZ(2) PWM_POLARITY_NORMAL>;
 			};
 
 			pwm3_pins: pwm3_pins {
-				pwms =	<&pwm3 0 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
-						<&pwm3 1 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
-						<&pwm3 2 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
-						<&pwm3 3 PWM_KHZ(2000) PWM_POLARITY_NORMAL>;
+				pwms =	<&pwm3 0 PWM_KHZ(2) PWM_POLARITY_NORMAL>,
+						<&pwm3 1 PWM_KHZ(2) PWM_POLARITY_NORMAL>,
+						<&pwm3 2 PWM_KHZ(2) PWM_POLARITY_NORMAL>,
+						<&pwm3 3 PWM_KHZ(2) PWM_POLARITY_NORMAL>;
 			};
 		};
 	};
