@@ -119,7 +119,7 @@ void uart_test_task(void* p_param)
 #define NUMB_UART		(2)
     while(1)
     {
-		for(uint8_t i=0; i<=NUMB_UART; i++)
+		for(uint8_t i=0; i < NUMB_UART; i++)
 		{
 			uart_test_echo(i);
         	k_msleep(100);

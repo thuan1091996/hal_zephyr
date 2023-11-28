@@ -52,9 +52,9 @@ uint8_t io_input_pins[] = {3, 4, 5, 12, 13, 16};
 int __InitUART()
 {
     // Init UART0
-    if(hal__UARTInit(2) != SUCCESS)
+    if(hal__UARTInit(1) != SUCCESS)
     {
-        LOG_ERR("UART2 init failed");
+        LOG_ERR("UART1 init failed");
         return FAILURE;
     }
     return SUCCESS;
