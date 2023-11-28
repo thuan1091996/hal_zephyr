@@ -10,6 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 target_sources(app PRIVATE 
             src/main.c
             src/hal.c
+            src/hal_gpio.c
             src/hal_uart.c
             src/hal_i2c.c
             src/hal_pwm.c

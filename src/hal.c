@@ -128,12 +128,13 @@ void System_DisableResetPin(void)
 
 int hal__init(void)
 {
-    // // Init input pins
-    // if (__InitGPIO() != SUCCESS)
-    // {
-    //     LOG_ERR("GPIO init failed");
-    //     return FAILURE;
-    // }
+    // Init input pins
+    if (__InitGPIO() != SUCCESS)
+    {
+        LOG_ERR("GPIO init failed");
+        return FAILURE;
+    }
+    // TODO - TMT: Implement
     // for (int i = 0; i < ARRAY_SIZE(io_input_pins); i++)
     // {
     //     if ( hal__setState(io_input_pins[i], 0) != SUCCESS)

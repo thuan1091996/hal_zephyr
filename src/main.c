@@ -30,6 +30,7 @@
 #define MODULE_LOG_LEVEL	        LOG_LEVEL_INF
 LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 
+#define APP_TEST_GPIO               (0)
 #define APP_TEST_UART 				(0)
 #define APP_TEST_I2C            	(0)
 #define APP_TEST_PWM            	(1)
@@ -52,6 +53,50 @@ LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 /******************************************************************************
 * Function Definitions
 *******************************************************************************/
+#if (APP_TEST_GPIO!= 0)
+uint8_t io_test_pins[]={28, 29, 31, 34};
+void gpio_custom__task(void *pvParameters)
+{
+    // Test pin as outputs
+    for(uint8_t idx=0; idx < ARRAY_SIZE(io_test_pins); idx++)
+    {
+        hal__setState(io_test_pins[idx], 1);
+    }
+
+    for(uint8_t idx=0; idx < ARRAY_SIZE(io_test_pins); idx++)
+    {
+        hal__setLow(io_test_pins[idx]);
+        k_msleep(1000);
+    }
+
+    // Turn on each pin for 1 second and then of 1 every 1 sec
+    for(uint8_t idx=0; idx < ARRAY_SIZE(io_test_pins); idx++)
+    {
+        hal__setHigh(io_test_pins[idx]);
+        k_msleep(1000);
+    }
+
+    // Set test pins as input
+    for(uint8_t idx=0; idx < ARRAY_SIZE(io_test_pins) - 1; idx++)
+    {
+        hal__setState(io_test_pins[idx], 0);
+    }
+    hal__setState(io_test_pins[ARRAY_SIZE(io_test_pins)-1], 2);
+
+    while(1)
+    {
+        LOG_INF("============== GPIO input =====================");
+        // Read pin state
+        for(uint8_t idx=0; idx < ARRAY_SIZE(io_test_pins); idx++)
+        {
+            LOG_INF("Pin %d state: %d", io_test_pins[idx], hal__read(io_test_pins[idx]));
+        }
+        k_msleep(1000);
+        LOG_INF("============== GPIO input =====================\r\n ");
+    }
+}
+#endif /* End of (APP_TEST_GPIO!= 0) */
+
 #if (APP_TEST_UART != 0)
 void uart_test_echo(int uart_num)
 {
@@ -235,6 +280,10 @@ int main(void)
 		LOG_ERR("HAL init failed");
 		return -1;
 	}
+    
+#if (APP_TEST_GPIO != 0)
+    gpio_custom__task(NULL);
+#endif /* End of (APP_TEST_GPIO != 0) */
 
 #if (APP_TEST_UART != 0)
 	uart_test_task(NULL);	
