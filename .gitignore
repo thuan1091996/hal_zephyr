@@ -6,3 +6,5 @@
 /build*/
 .cache/
 .vscode/
+tests/integration/build/
+tests/integration/twister-out*
