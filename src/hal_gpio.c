@@ -9,7 +9,6 @@
 #define MODULE_LOG_LEVEL	        LOG_LEVEL_DBG
 LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 
-#if (CONFIG_SOC_NRF52840 != 0 )
 /*
 *   PORT    HW_PIN      SOFT_PIN
 *   0	    0-31	    0-31
@@ -18,7 +17,6 @@ LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 #define GPIO_PIN_NUMBER_ALL                 48
 #define mPORT(pinNum)                       (pinNum/32)
 #define mPIN(pinNum)                        (pinNum%32)
-#endif /* End of (CONFIG_SOC_NRF52840 != 0 ) */
 
 
 static const struct device * gpio_devices[] = {
