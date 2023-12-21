@@ -1,3 +1,7 @@
+manifest:
+  self:
+    west-commands: scripts/west-commands.yml
+    
 sample:
   description: Hello World sample, the simplest Zephyr
     application
