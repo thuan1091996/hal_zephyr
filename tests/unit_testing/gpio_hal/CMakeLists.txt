@@ -8,7 +8,7 @@ project(integration)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Get parent directory
-set(APP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../src)
+set(APP_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../src)
 message(STATUS "APP_SRC_DIR: ${APP_SRC_DIR}")
 
 # Include ${APP_SRC_DIR} directory
