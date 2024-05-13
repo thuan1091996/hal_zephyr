@@ -9,17 +9,7 @@
 #define MODULE_LOG_LEVEL	        LOG_LEVEL_DBG
 LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 
-/*
-*   PORT    HW_PIN      SOFT_PIN
-*   0	    0-31	    0-31
-*   1	    0-15	    32-47 
-*/
-#define GPIO_PIN_NUMBER_ALL                 48
-#define mPORT(pinNum)                       (pinNum/32)
-#define mPIN(pinNum)                        (pinNum%32)
-
-
-static const struct device * gpio_devices[] = {
+const struct device * gpio_devices[] = {
     DEVICE_DT_GET(DT_NODELABEL(gpio0)),
     DEVICE_DT_GET(DT_NODELABEL(gpio1)) 
 };

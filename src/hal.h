@@ -19,6 +19,19 @@ extern "C" {
 #define param_check(param)	    if ( !(param) ) return FAILURE
 #define error_check(con, error) if ( con ) return error
 
+// GPIO relatives
+#define GPIO_PIN_NUMBER_ALL                 48
+/*
+*   PORT    HW_PIN      SOFT_PIN
+*   0	    0-31	    0-31
+*   1	    0-15	    32-47 
+*/
+#define mPORT(pinNum)                       (pinNum/32)
+#define mPIN(pinNum)                        (pinNum%32)
+/*-----------------------------------------------------------------------------*/
+/*							    Exported variables				     	   */
+/*-----------------------------------------------------------------------------*/
+extern const struct device * gpio_devices[];
 
 /*-----------------------------------------------------------------------------*/
 /*							    Function prototypes					     	   */
@@ -29,7 +42,6 @@ extern "C" {
 
 
 
-/* HAL Framework for */
 
 
 int hal__init(); //Initialize HAL. Returns 0 on success, -1 on failure.
