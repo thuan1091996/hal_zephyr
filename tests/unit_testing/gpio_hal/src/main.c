@@ -8,6 +8,7 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/ztest.h>
 #include "hal.h"
+#include "zephyr/ztest_assert.h"
 
 ZTEST_SUITE(framework_tests, NULL, NULL, NULL, NULL, NULL);
 
@@ -95,22 +96,47 @@ ZTEST(framework_tests, test_hal__setState_should_ReturnSUCCESS_when_validParams)
 
 ZTEST(framework_tests, test_hal__setState_should_set_pin_to_input_when_state_is_0)
 {
-	int ret;
-	int ret = hal__setState(0, 1);
+	// Set pin 0 to input state
+	int ret = hal__setState(0, 0);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS with valid params");
 
 	// Verify that the pin is set to input
-	// gpio_port_pins_t * io_input=NULL;
-	gpio_flags_t flags_get = 0;
-
-	// gpio_port_pins_t * io_output=NULL;
-	// ret = gpio_port_get_direction(gpio_devices[mPORT(0)], mPIN(0), io_input, io_output);
-	// ret = gpio_pin_get_config(gpio_devices[mPORT(0)], mPIN(0), io_input, io_output);
-	// ret = gpio_pin_get_config(gpio_devices[mPORT(0)], mPIN(0), &flags_get);
-	// ret = gpio_pin_is_input(gpio_devices[mPORT(0)], mPIN(0));
-	// ret = gpio_pin_is_output(gpio_devices[mPORT(0)], mPIN(0));
+	gpio_port_pins_t io_input = 0;
+	gpio_port_pins_t io_output= 0;
+	ret = gpio_port_get_direction(gpio_devices[mPORT(0)], 1U << mPIN(0), &io_input, &io_output);
 	zassert_equal(ret, 0, "gpio_port_get_direction() should return 0");
-	zassert_equal(flags_get, GPIO_INPUT, "hal__setState() should set pin to input");
+	zassert_equal(io_output, 0, "io_output should remain 0 when pin is set to input");
+	zassert_not_equal(io_input, 0, "io_input should not be 0 when pin is set to input");
+}
+
+ZTEST(framework_tests, test_hal__setState_should_set_pin_to_output_when_state_is_1)
+{
+	// Set pin 0 to output state
+	int ret = hal__setState(1, 1);
+	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS with valid params");
+
+	// Verify that the pin is set to output
+	gpio_port_pins_t io_input = 0;
+	gpio_port_pins_t io_output= 0;
+	ret = gpio_port_get_direction(gpio_devices[mPORT(0)], 1U << mPIN(1), &io_input, &io_output);
+	zassert_equal(ret, 0, "gpio_port_get_direction() should return 0");
+	zassert_equal(io_input, 0, "io_input should remain 0 when pin is set to output");
+	zassert_not_equal(io_output, 0, "io_output should not be 0 when pin is set to output");
+}
+
+ZTEST(framework_tests, test_hal__setState_should_set_pin_to_high_impedance_when_state_is_2)
+{
+	// Set pin 0 to high state
+	int ret = hal__setState(2, 2);
+	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS with valid params");
+
+	// Verify that the pin is set to high
+	gpio_port_pins_t io_input = 0;
+	gpio_port_pins_t io_output= 0;
+	ret = gpio_port_get_direction(gpio_devices[mPORT(0)], 1U << mPIN(2), &io_input, &io_output);
+	zassert_equal(ret, 0, "gpio_port_get_direction() should return 0");
+	zassert_equal(io_output, 0, "io_output should remain 0 when pin is set to high impedance");
+	zassert_equal(io_input, 0, "io_input should remain 0 when pin is set to high impedance");
 }
 
 
