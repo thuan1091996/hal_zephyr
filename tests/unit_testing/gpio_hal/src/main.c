@@ -26,17 +26,17 @@ ZTEST(framework_tests, test_hal__setState_should_ReturnFAILURE_when_pinNum_is_le
 	zassert_equal(ret, FAILURE, "hal__setState() should return FAILURE with pin number -1");
 }
 
-ZTEST(framework_tests, test_hal__setState_should_ReturnFAILURE_when_pinNum_greater_than_or_equal_to_GPIO_PIN_NUMBER_ALL)
+ZTEST(framework_tests, test_hal__setState_should_ReturnFAILURE_when_pinNum_greater_than_or_equal_to_CONFIG_GPIO_PIN_NUM)
 {
 	int ret = SUCCESS;
-	uint8_t pinNum = GPIO_PIN_NUMBER_ALL;
+	uint8_t pinNum = CONFIG_GPIO_PIN_NUM;
 	ret = hal__setState(pinNum, 0);
-	zassert_equal(ret, FAILURE, "hal__setState() should return FAILURE with pin number equal to GPIO_PIN_NUMBER_ALL");
+	zassert_equal(ret, FAILURE, "hal__setState() should return FAILURE with pin number equal to CONFIG_GPIO_PIN_NUM");
 
 	ret = SUCCESS;
-	pinNum = GPIO_PIN_NUMBER_ALL + 1;
+	pinNum = CONFIG_GPIO_PIN_NUM + 1;
 	ret = hal__setState(pinNum, 0);
-	zassert_equal(ret, FAILURE, "hal__setState() should return FAILURE with pin number greater than GPIO_PIN_NUMBER_ALL");
+	zassert_equal(ret, FAILURE, "hal__setState() should return FAILURE with pin number greater than CONFIG_GPIO_PIN_NUM");
 }
 
 ZTEST(framework_tests, test_hal__setState_should_ReturnFAILURE__when_state_is_less_than_0)
@@ -64,7 +64,7 @@ ZTEST(framework_tests, test_hal__setState_should_ReturnSUCCESS_when_validParams)
 	// Valid pin number tests
 	ret = hal__setState(0, 0);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
-	ret = hal__setState(47, 0);
+	ret = hal__setState(CONFIG_GPIO_PIN_NUM - 1, 0);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
 	ret = hal__setState(24, 0);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
@@ -79,11 +79,11 @@ ZTEST(framework_tests, test_hal__setState_should_ReturnSUCCESS_when_validParams)
 	ret = hal__setState(0, 2);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
 
-	ret = hal__setState(47, 0);
+	ret = hal__setState(CONFIG_GPIO_PIN_NUM - 1, 0);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
-	ret = hal__setState(47, 1);
+	ret = hal__setState(CONFIG_GPIO_PIN_NUM - 1, 1);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
-	ret = hal__setState(47, 2);
+	ret = hal__setState(CONFIG_GPIO_PIN_NUM - 1, 2);
 	zassert_equal(ret, SUCCESS, "hal__setState() should return SUCCESS");
 
 	ret = hal__setState(22, 0);
