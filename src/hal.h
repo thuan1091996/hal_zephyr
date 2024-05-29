@@ -20,14 +20,13 @@ extern "C" {
 #define error_check(con, error) if ( con ) return error
 
 // GPIO relatives
-#define GPIO_PIN_NUMBER_ALL                 48
 /*
 *   PORT    HW_PIN      SOFT_PIN
 *   0	    0-31	    0-31
 *   1	    0-15	    32-47 
 */
-#define mPORT(pinNum)                       (pinNum/32)
-#define mPIN(pinNum)                        (pinNum%32)
+#define mPORT(pinNum)                       (pinNum/CONFIG_GPIO_PORT_PIN_NUM)
+#define mPIN(pinNum)                        (pinNum%CONFIG_GPIO_PORT_PIN_NUM)
 /*-----------------------------------------------------------------------------*/
 /*							    Exported variables				     	   */
 /*-----------------------------------------------------------------------------*/
