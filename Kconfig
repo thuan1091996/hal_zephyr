@@ -1,0 +1,22 @@
+mainmenu "Custom apps Menu"
+source "Kconfig.zephyr"
+
+menu "Application Options"
+config GPIO_PIN_NUM
+	int "GPIO pin number"
+	default 0
+	help
+	  Total number of GPIO pins available on the board.
+
+config GPIO_PORT_PIN_NUM 
+	int "GPIO pin per port"
+	default 0
+	help
+	  Number of GPIO pins per port.
+
+config GPIO_NRESET_PIN
+	int "GPIO pin number for nRESET"
+	default 0
+	help
+	  GPIO pin number for nRESET.
+endmenu

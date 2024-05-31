@@ -1,0 +1,10 @@
+tests:
+  # section.subsection
+  sample.testing.ztest:
+    # build_only: true
+    platform_allow: native_posix nrf52840dk_nrf52840
+    integration_platforms:
+      - native_posix
+      - nrf52840dk_nrf52840
+    tags:  drivers gpio
+    depends_on: gpio

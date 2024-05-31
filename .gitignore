@@ -6,3 +6,5 @@
 /build*/
 .cache/
 .vscode/
+tests/unit_testing/gpio_hal/build/
+twister-out*/

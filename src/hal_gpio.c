@@ -9,21 +9,13 @@
 #define MODULE_LOG_LEVEL	        LOG_LEVEL_DBG
 LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 
-#if (CONFIG_SOC_NRF52840 != 0 )
-/*
-*   PORT    HW_PIN      SOFT_PIN
-*   0	    0-31	    0-31
-*   1	    0-15	    32-47 
-*/
-#define GPIO_PIN_NUMBER_ALL                 48
-#define mPORT(pinNum)                       (pinNum/32)
-#define mPIN(pinNum)                        (pinNum%32)
-#endif /* End of (CONFIG_SOC_NRF52840 != 0 ) */
-
-
-static const struct device * gpio_devices[] = {
+const struct device * gpio_devices[] = {
+#if( DT_NODE_HAS_STATUS(DT_NODELABEL(gpio0), okay))
     DEVICE_DT_GET(DT_NODELABEL(gpio0)),
+#endif
+#if( DT_NODE_HAS_STATUS(DT_NODELABEL(gpio1), okay))
     DEVICE_DT_GET(DT_NODELABEL(gpio1)) 
+#endif
 };
 
 int __InitGPIO(void)
@@ -50,7 +42,7 @@ int __InitGPIO(void)
 // Returns 0 on success, -1 on failure.
 int hal__setState(uint8_t pinNum, uint8_t state)
 {
-    param_check( (pinNum >= 0) && (pinNum < GPIO_PIN_NUMBER_ALL));
+    param_check( (pinNum >= 0) && (pinNum < CONFIG_GPIO_PIN_NUM));
     param_check( (state >= 0) && (state <3));
 
     gpio_flags_t pin_flags;
@@ -76,7 +68,7 @@ int hal__setState(uint8_t pinNum, uint8_t state)
 
 int hal__setHigh(uint8_t pinNum)
 {
-    param_check( (pinNum >= 0) && (pinNum < GPIO_PIN_NUMBER_ALL));
+    param_check( (pinNum >= 0) && (pinNum < CONFIG_GPIO_PIN_NUM));
     int status = gpio_pin_set_raw(gpio_devices[mPORT(pinNum)], mPIN(pinNum),1);
     if(status != 0)
     {
@@ -88,7 +80,7 @@ int hal__setHigh(uint8_t pinNum)
 
 int hal__setLow(uint8_t pinNum)
 {
-    param_check( (pinNum >= 0) && (pinNum < GPIO_PIN_NUMBER_ALL));
+    param_check( (pinNum >= 0) && (pinNum < CONFIG_GPIO_PIN_NUM));
     int status = gpio_pin_set_raw(gpio_devices[mPORT(pinNum)], mPIN(pinNum), 0);
     if(status != 0)
     {
@@ -100,7 +92,7 @@ int hal__setLow(uint8_t pinNum)
 
 int hal__read(uint8_t pinNum)
 {
-    param_check( (pinNum >= 0) && (pinNum < GPIO_PIN_NUMBER_ALL));
+    param_check( (pinNum >= 0) && (pinNum < CONFIG_GPIO_PIN_NUM));
     int status = gpio_pin_get_raw(gpio_devices[mPORT(pinNum)], mPIN(pinNum));
     if(status < 0)
     {

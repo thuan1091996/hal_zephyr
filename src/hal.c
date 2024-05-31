@@ -20,11 +20,6 @@
 /******************************************************************************
 * Module Preprocessor Constants
 *******************************************************************************/
-#ifdef CONFIG_SOC_NRF52840
-	#define nRESET_PIN				18
-#elif CONFIG_SOC_NRF52832
-	#define nRESET_PIN				21
-#endif
 
 /******************************************************************************
 * Module Preprocessor Macros
@@ -82,9 +77,9 @@ void System_EnableResetPin(void)
 	{
         NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Wen << NVMC_CONFIG_WEN_Pos;
         while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NRF_UICR->PSELRESET[0] = nRESET_PIN;
+        NRF_UICR->PSELRESET[0] = CONFIG_GPIO_NRESET_PIN;
         while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
-        NRF_UICR->PSELRESET[1] = nRESET_PIN;
+        NRF_UICR->PSELRESET[1] = CONFIG_GPIO_NRESET_PIN;
         while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}
         NRF_NVMC->CONFIG = NVMC_CONFIG_WEN_Ren << NVMC_CONFIG_WEN_Pos;
         while (NRF_NVMC->READY == NVMC_READY_READY_Busy){}

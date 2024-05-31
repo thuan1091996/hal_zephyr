@@ -33,10 +33,22 @@ LOG_MODULE_REGISTER(MODULE_NAME, MODULE_LOG_LEVEL);
 * | PWM3          | 15           | P1.11    |
  */
 static struct pwm_dt_spec pwm_devices[] = {
+#if DT_NODE_HAS_STATUS(DT_NODELABEL(pwm0), okay)
     DT_FOREACH_PROP_ELEM(DT_NODELABEL(pwm0_pins), pwms, PWM_DT_SPEC)
+#endif
+
+#if DT_NODE_HAS_STATUS(DT_NODELABEL(pwm1), okay)
     DT_FOREACH_PROP_ELEM(DT_NODELABEL(pwm1_pins), pwms, PWM_DT_SPEC)
+#endif
+
+#if DT_NODE_HAS_STATUS(DT_NODELABEL(pwm2), okay)
     DT_FOREACH_PROP_ELEM(DT_NODELABEL(pwm2_pins), pwms, PWM_DT_SPEC)
+#endif
+
+#if DT_NODE_HAS_STATUS(DT_NODELABEL(pwm3), okay)
     DT_FOREACH_PROP_ELEM(DT_NODELABEL(pwm3_pins), pwms, PWM_DT_SPEC)
+#endif
+
 } ;
 
 int __InitPWM()

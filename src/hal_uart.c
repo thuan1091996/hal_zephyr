@@ -90,6 +90,10 @@ static const struct device *uart_device[] = {
 	DEVICE_DT_GET(UART0_NODE),
 #endif
 
+#if DT_NODE_HAS_STATUS(UART1_NODE, okay)
+    DEVICE_DT_GET(UART1_NODE),
+#endif
+
 #if (USB_CDC_UART_ENABLE == 1)
     DEVICE_DT_GET(USB_CDC_NODE),
 #endif /* (USB_CDC_UART_ENABLE == 1) */
