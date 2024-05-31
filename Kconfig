@@ -13,4 +13,10 @@ config GPIO_PORT_PIN_NUM
 	default 0
 	help
 	  Number of GPIO pins per port.
+
+config GPIO_NRESET_PIN
+	int "GPIO pin number for nRESET"
+	default 0
+	help
+	  GPIO pin number for nRESET.
 endmenu
