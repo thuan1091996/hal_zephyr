@@ -1,0 +1,46 @@
+// ------------------ Remove DK board default overlay ------------------ // 
+
+
+/ {
+	aliases {
+	};
+};
+
+// ------------------ Application  ------------------ // 
+
+&pinctrl {
+
+	pwm0_sleep: pwm0_sleep
+	{
+		group1 {
+			psels = <NRF_PSEL(PWM_OUT0, 0, 9)>,
+					<NRF_PSEL(PWM_OUT1, 0, 10)>,
+					<NRF_PSEL(PWM_OUT2, 0, 11)>,
+					<NRF_PSEL(PWM_OUT3, 0, 12)>;
+		};
+	};
+
+	pwm0_default: pwm0_default
+	{
+		group1 {
+			psels = <NRF_PSEL(PWM_OUT0, 0, 9)>,
+					<NRF_PSEL(PWM_OUT1, 0, 10)>,
+					<NRF_PSEL(PWM_OUT2, 0, 11)>,
+					<NRF_PSEL(PWM_OUT3, 0, 12)>;
+		};
+	};
+};
+
+/ {
+	zephyr,user {
+		pwm_pins {
+			compatible = "pwm-leds";
+			pwm0_pins: pwm0_pins {
+				pwms =	<&pwm0 0 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
+						<&pwm0 1 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
+						<&pwm0 2 PWM_KHZ(2000) PWM_POLARITY_NORMAL>,
+						<&pwm0 3 PWM_KHZ(2000) PWM_POLARITY_NORMAL>;
+			};
+		};
+	};
+};
