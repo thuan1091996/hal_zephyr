@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <sys/_intsup.h>
 #include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
