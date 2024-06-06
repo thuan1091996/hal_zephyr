@@ -6,8 +6,12 @@
 	};
 };
 
-// ------------------ Application  ------------------ // 
+/delete-node/ &slot1_partition;
 
+// ------------------ Application  ------------------ // 
+&slot0_partition{
+	reg = < 0xc000 0x1a000 >;
+};
 
 / {
 	zephyr,user {
