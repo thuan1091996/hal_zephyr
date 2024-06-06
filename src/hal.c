@@ -47,7 +47,7 @@ uint8_t io_input_pins[] = {3, 4, 5, 12, 13, 16};
 int __InitUART()
 {
     // Init UART0
-    if(hal__UARTInit(1) != SUCCESS)
+    if(hal__UARTInit(0) != SUCCESS)
     {
         LOG_ERR("UART1 init failed");
         return FAILURE;
@@ -129,15 +129,6 @@ int hal__init(void)
         LOG_ERR("GPIO init failed");
         return FAILURE;
     }
-    // TODO - TMT: Implement
-    // for (int i = 0; i < ARRAY_SIZE(io_input_pins); i++)
-    // {
-    //     if ( hal__setState(io_input_pins[i], 0) != SUCCESS)
-    //     {
-    //         LOG_ERR("Setting pin %d as input failed", io_input_pins[i]);
-    //         return FAILURE;
-    //     }      
-    // }
 
     // Init PWM
     if (__InitPWM() != SUCCESS)
@@ -146,12 +137,12 @@ int hal__init(void)
         return FAILURE;
     }
 
-    // // Init ADC
-    // if (__InitADC() != SUCCESS)
-    // {
-    //     LOG_ERR("ADC init failed");
-    //     return FAILURE;
-    // }
+    // Init ADC
+    if (__InitADC() != SUCCESS)
+    {
+        LOG_ERR("ADC init failed");
+        return FAILURE;
+    }
 
     // Init UART
     if (__InitUART() != SUCCESS)
