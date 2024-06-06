@@ -16,3 +16,10 @@ target_sources(app PRIVATE
             src/hal_pwm.c
             src/hal_adc.c
             )
+
+zephyr_library_sources_ifdef(
+    CONFIG_BT
+    src/hal_ble.c
+    src/ble/ble_gatt.c
+    src/ble/bluetoothle.c
+)
