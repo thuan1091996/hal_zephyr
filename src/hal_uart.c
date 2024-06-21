@@ -198,6 +198,7 @@ int usb_init(const struct device *usb_dev)
 int hal__UARTInit(uint8_t uartNum)
 {
     param_check((uartNum >= 0) && (uartNum < UART_MAX_INSTANCE));
+    int status;
     if( !device_is_ready(uart_device[uartNum]) )
     {
         LOG_ERR("UART %d device is not ready!", uartNum);
@@ -223,7 +224,7 @@ int hal__UARTInit(uint8_t uartNum)
             .data_bits = UART_DEAFULT_CONF_DATA_BITS,
             .flow_ctrl = UART_DEAFULT_CONF_FLOW_CTRL
         };
-        int status = uart_configure(uart_device[uartNum], &uart_cfg);
+        status = uart_configure(uart_device[uartNum], &uart_cfg);
         if(status != 0)
         {
             LOG_ERR("Failed to configure UART %d with error code %d", uartNum, status);
@@ -233,7 +234,11 @@ int hal__UARTInit(uint8_t uartNum)
     }
     // UART interrupt config
     ring_buf_init(&uart_ringbuffer[uartNum].ringbuf, UART_DEFAULT_RINGBUFFER_SIZE, uart_ringbuffer[uartNum].buffer);
-    uart_irq_callback_user_data_set(uart_device[uartNum], &uart_irq_callback, &uart_ringbuffer[uartNum]);
+    status = uart_irq_callback_user_data_set(uart_device[uartNum], &uart_irq_callback, &uart_ringbuffer[uartNum]);
+    if(status != 0)
+    {
+        LOG_ERR("Failed to set UART %d IRQ callback with error code %d", uartNum, status);
+    }
     uart_irq_rx_enable(uart_device[uartNum]);
     return SUCCESS;
 }
