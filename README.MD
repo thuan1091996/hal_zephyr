@@ -10,7 +10,7 @@ west build -p -b ubx_bmd330eval_nrf52810 -- -DEXTRA_CONF_FILE="ble.conf"
 ```
 
 ## Requirements
-- [Setup for ZephyrRTOS@3.5.0](https://docs.zephyrproject.org/3.5.0/develop/getting_started/index.html)
+- nRF connect SDK v2.6.1
 
 
 ## Simulation with Renode-run
