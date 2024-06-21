@@ -158,6 +158,13 @@ int hal__init(void)
         return FAILURE;
     }
 
+    // Init BLE
+    if (__InitBLE() != SUCCESS)
+    {
+        LOG_ERR("BLE init failed");
+        return FAILURE;
+    }
+
     return SUCCESS;
 
 }

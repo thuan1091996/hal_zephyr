@@ -4,6 +4,7 @@
 
 # build
 /build*/
+/log*/
 .cache/
 .vscode/
 tests/unit_testing/gpio_hal/build/

@@ -49,6 +49,7 @@ int __InitUART();
 int __InitI2C();
 int __InitADC();
 int __InitPWM();
+int __InitBLE(void);
 
 /* TIMER_HELPER_FUNCTIONS */
 int hal__setDutyCycle(uint8_t pinNum, uint16_t dutyCycle_tenth); 
