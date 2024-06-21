@@ -3,10 +3,10 @@
 ## Build commands
 ```
 # nRF52840DK
-west build -b nrf52840dk_nrf52840 -- -DEXTRA_CONF_FILE=usbd_cdc.conf
+west build -p -b nrf52840dk_nrf52840 -- -DEXTRA_CONF_FILE="usbd_cdc.conf;ble.conf"
 
 # BMD-330
-west build -b ubx_bmd330eval_nrf52810
+west build -p -b ubx_bmd330eval_nrf52810 -- -DEXTRA_CONF_FILE="ble.conf"
 ```
 
 ## Requirements
