@@ -178,6 +178,7 @@ void uart_irq_callback(const struct device *dev, void *user_data)
     ring_buf_put_finish(&p_uart_ringbuffer->ringbuf, total_size);
 }
 
+#if (USB_CDC_UART_ENABLE == 1)
 int usb_init(const struct device *usb_dev)
 {
 	int ret;
@@ -194,6 +195,7 @@ int usb_init(const struct device *usb_dev)
 	}
 	return SUCCESS;
 }
+#endif /* End of (USB_CDC_UART_ENABLE == 1) */
 
 int hal__UARTInit(uint8_t uartNum)
 {
