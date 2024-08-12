@@ -8,7 +8,28 @@ config BOARD
 
 config BT_CTLR
    default BT
+
+config BOARD_ENABLE_DCDC
+	bool "DCDC mode"
+	select SOC_DCDC_NRF52X
+	default y
+
+config GPIO_PIN_NUM
+	int "GPIO pin number"
+	default 32
+	help
+	  Total number of GPIO pins available on the board.
+
+config GPIO_PORT_PIN_NUM 
+	int "GPIO pin per port"
+	default 32
+	help
+	  Number of GPIO pins per port.
+
+config GPIO_NRESET_PIN
+	int "GPIO pin number for nRESET"
+	default 21
+	help
+	  GPIO pin number for nRESET.
    
-
-
 endif
