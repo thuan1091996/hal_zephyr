@@ -1,10 +1,10 @@
 # Copyright (c) 2024 Nordic Semiconductor ASA
 # SPDX-License-Identifier: Apache-2.0
 
-if BOARD_NELTECH_NRF52832
+if BOARD_NELTEK_NRF52832
 
 config BOARD
-	default "neltech_nrf52832"
+	default "neltek_nrf52832"
 
 config BT_CTLR
    default BT
