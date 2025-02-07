@@ -94,9 +94,9 @@ static const struct device *uart_device[] = {
     DEVICE_DT_GET(UART1_NODE),
 #endif
 
-#if (USB_CDC_UART_ENABLE == 1)
+#ifdef CONFIG_USB_CDC_ACM
     DEVICE_DT_GET(USB_CDC_NODE),
-#endif /* (USB_CDC_UART_ENABLE == 1) */
+#endif /* CONFIG_USB_CDC_ACM */
 
 };
 
@@ -178,7 +178,7 @@ void uart_irq_callback(const struct device *dev, void *user_data)
     ring_buf_put_finish(&p_uart_ringbuffer->ringbuf, total_size);
 }
 
-#if (USB_CDC_UART_ENABLE == 1)
+#ifdef CONFIG_USB_CDC_ACM
 int usb_init(const struct device *usb_dev)
 {
 	int ret;
@@ -195,7 +195,7 @@ int usb_init(const struct device *usb_dev)
 	}
 	return SUCCESS;
 }
-#endif /* End of (USB_CDC_UART_ENABLE == 1) */
+#endif /* End of CONFIG_USB_CDC_ACM */
 
 int hal__UARTInit(uint8_t uartNum)
 {
@@ -206,7 +206,7 @@ int hal__UARTInit(uint8_t uartNum)
         LOG_ERR("UART %d device is not ready!", uartNum);
         return FAILURE;
     }
-#if (USB_CDC_UART_ENABLE == 1)
+#ifdef CONFIG_USB_CDC_ACM
     if (uartNum == (UART_MAX_INSTANCE -1)) // USB device
     {
         if (usb_init(uart_device[uartNum]) != 0)
@@ -217,7 +217,7 @@ int hal__UARTInit(uint8_t uartNum)
         LOG_INF("Init USB CDC success");
     }
     else 
-#endif /* End of (USB_CDC_UART_ENABLE == 1) */
+#endif /* End of CONFIG_USB_CDC_ACM */
     {
         const struct uart_config uart_cfg = {
             .baudrate = UART_DEFAULT_CONF_BAUDRATE,
